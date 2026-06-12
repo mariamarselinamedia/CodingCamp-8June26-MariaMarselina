@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense &amp; Budget Visualizer</title>
+
+    <!-- Tailwind CSS CDN (v3) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enable class-based dark mode for Tailwind v3 CDN -->
+    <script>
+      tailwind.config = { darkMode: 'class' }
+    </script>
+
+    <!-- Chart.js CDN (v4) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- App logic -->
+    <script src="js/app.js" defer></script>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 min-h-screen">
+
+    <!-- ===== Header ===== -->
+    <header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 shadow">
+      <h1 class="text-xl font-bold text-gray-800 dark:text-white">Expense &amp; Budget Visualizer</h1>
+      <button id="theme-toggle" type="button" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">Toggle Dark Mode</button>
+    </header>
+
+    <!-- ===== Hero: Total Spent ===== -->
+    <section aria-labelledby="total-label" class="text-center py-8 px-6">
+      <h2 id="total-label" class="text-lg font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Spent</h2>
+      <span id="total-display" class="block text-5xl font-extrabold text-gray-800 dark:text-white mt-2">$0.00</span>
+    </section>
+
+    <!-- ===== Main 3-column Grid ===== -->
+    <main class="grid lg:grid-cols-3 gap-6 px-6 pb-10">
+
+      <!-- Add Transaction Card -->
+      <section id="add-card" aria-labelledby="add-card-heading" class="rounded-xl shadow-md p-6 bg-white dark:bg-gray-800">
+        <h2 id="add-card-heading" class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Add Transaction</h2>
+
+        <form id="transaction-form" novalidate class="space-y-4">
+
+          <div class="flex flex-col gap-1">
+            <label for="item-name" class="text-sm font-medium text-gray-600 dark:text-gray-300">Item Name</label>
+            <input type="text" id="item-name" name="item-name" autocomplete="off" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="item-amount" class="text-sm font-medium text-gray-600 dark:text-gray-300">Amount</label>
+            <input type="number" id="item-amount" name="item-amount" min="0.01" step="0.01" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="item-category" class="text-sm font-medium text-gray-600 dark:text-gray-300">Category</label>
+            <select id="item-category" name="item-category" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+          </div>
+
+          <a href="#" id="add-category-link" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer">+ Add Custom Category</a>
+
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition-colors">Add Transaction</button>
+
+          <p aria-live="polite" id="form-error" class="text-sm text-red-500 min-h-[1.25rem]"></p>
+
+        </form>
+      </section>
+
+      <!-- Transaction List Card -->
+      <section id="list-card" aria-labelledby="list-card-heading" class="rounded-xl shadow-md p-6 bg-white dark:bg-gray-800">
+        <h2 id="list-card-heading" class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Transactions</h2>
+
+        <div class="flex items-center gap-2 mb-4">
+          <label for="sort-select" class="text-sm font-medium text-gray-600 dark:text-gray-300">Sort by</label>
+          <select id="sort-select" name="sort-select" class="border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="amount-high">Amount: High to Low</option>
+            <option value="amount-low">Amount: Low to High</option>
+          </select>
+        </div>
+
+        <ul id="transaction-list" class="overflow-y-auto max-h-80 space-y-2 mt-2"></ul>
+      </section>
+
+      <!-- Chart Card -->
+      <section id="chart-card" aria-labelledby="chart-card-heading" class="rounded-xl shadow-md p-6 bg-white dark:bg-gray-800">
+        <h2 id="chart-card-heading" class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Spending by Category</h2>
+
+        <div class="relative h-64">
+          <canvas
+            id="spending-chart"
+            class="w-full"
+            aria-label="Doughnut chart showing spending distribution by category"
+            role="img"
+          ></canvas>
+        </div>
+      </section>
+
+    </main>
+
+  </body>
+</html>

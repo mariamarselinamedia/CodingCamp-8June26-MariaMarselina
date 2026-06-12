@@ -1,0 +1,103 @@
+/* =========================================================
+   Expense & Budget Visualizer — Custom Styles
+   Augments Tailwind CSS utility classes with anything that
+   cannot be expressed purely via utilities.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Dark-mode color transitions
+   Smooth transition on all elements so theme toggles look
+   polished rather than jarring.
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* ---------------------------------------------------------
+   Custom scrollbar — Transaction List (#transaction-list)
+   --------------------------------------------------------- */
+#transaction-list {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent; /* Firefox */
+}
+
+#transaction-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#transaction-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#transaction-list::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 9999px;
+}
+
+/* Dark-mode scrollbar thumb */
+.dark #transaction-list::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+/* ---------------------------------------------------------
+   Tailwind dark-mode override
+   Ensure the dark variant is activated by the "dark" class
+   on <html> (Tailwind v3 class strategy is the default, but
+   this comment serves as documentation).
+   --------------------------------------------------------- */
+
+/* ---------------------------------------------------------
+   Utility: remove transition for users who prefer
+   reduced motion (accessibility).
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   Category badge color palette
+   Used by JS-rendered transaction list items.
+   Each category pill gets a data-category-color class
+   applied via JS, or these can be targeted via nth-child.
+   These colors serve as the default palette.
+   --------------------------------------------------------- */
+
+/* Badge base style (applied via JS as inline or class) */
+.badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Badge color variants */
+.badge-food       { background-color: #fef3c7; color: #92400e; }
+.badge-transport  { background-color: #dbeafe; color: #1e40af; }
+.badge-fun        { background-color: #fce7f3; color: #9d174d; }
+.badge-default    { background-color: #e5e7eb; color: #374151; }
+.badge-purple     { background-color: #ede9fe; color: #5b21b6; }
+.badge-green      { background-color: #d1fae5; color: #065f46; }
+.badge-orange     { background-color: #ffedd5; color: #9a3412; }
+.badge-teal       { background-color: #ccfbf1; color: #134e4a; }
+.badge-rose       { background-color: #ffe4e6; color: #9f1239; }
+.badge-sky        { background-color: #e0f2fe; color: #075985; }
+
+/* Dark mode badge adjustments */
+.dark .badge-food       { background-color: #78350f; color: #fef3c7; }
+.dark .badge-transport  { background-color: #1e3a5f; color: #bfdbfe; }
+.dark .badge-fun        { background-color: #831843; color: #fce7f3; }
+.dark .badge-default    { background-color: #374151; color: #e5e7eb; }
+.dark .badge-purple     { background-color: #4c1d95; color: #ede9fe; }
+.dark .badge-green      { background-color: #064e3b; color: #d1fae5; }
+.dark .badge-orange     { background-color: #7c2d12; color: #ffedd5; }
+.dark .badge-teal       { background-color: #134e4a; color: #ccfbf1; }
+.dark .badge-rose       { background-color: #881337; color: #ffe4e6; }
+.dark .badge-sky        { background-color: #0c4a6e; color: #e0f2fe; }
